@@ -1,0 +1,11 @@
+This is a Small Container Library, SCL.
+
+This library provides hash tables, list, queue, stack, symbol, balanced binary
+tree, and a vector as abstract data types.  Multiple independent instances of
+the same abstract type can be used, each with its own arbitrary contents.
+
+SCL does NOT redefine the world with SCL_int, SCL_long, etc.  The SCL functions
+use arguments that are standard: long, int, size_t, etc.
+
+For official releases of libscl, see the ttylinux extras web page:
+http://ttylinux.org/Extra

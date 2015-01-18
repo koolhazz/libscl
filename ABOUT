@@ -1,0 +1,14 @@
+SCL - Small Container Library
+      SCL was started on October 30, 2004.
+
+Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org> Peoria, AZ USA
+
+config.c    SCL_config.h
+hash.c      SCL_hash.h      -- multivalue [collision table] ASCII-Z key
+list.c      SCL_list.h      -- multivalue [doubly-linked list] size_t indexible
+map.c       SCL_map.h       -- multivalue [collision table] long-size key
+queuebuf.c  SCL_queuebuf.h  -- multivalue [bytes queue; single queue block]
+stackbuf.c  SCL_stackbuf.h  -- multivalue [bytes stack; external block storage]
+symbol.c    SCL_symbol.h    -- scalar     [data type abstraction]
+tree.c      SCL_tree.h      -- multivalue [linked tree] long-size key
+vector.c    SCL_vector.h    -- multivalue [indexed list] size_t indexible

@@ -1,0 +1,135 @@
+
+                                      SCL
+                            Small Container Library
+
+http://www.sourceforge.net/projects/libscl/
+
+
+============
+Introduction
+============
+
+This is a Small Container Library, SCL.
+
+If you are not sure what a container is, then ignore the word container in this
+file and you'll probably understand everything.
+
+This library provides hash tables, list, queue, stack, symbol, balanced binary
+tree, and a vector as abstract data types.  Multiple independent instances of
+the same abstract type can be used, each with its own arbitrary contents.
+
+SCL does not redefine the world with SCL_int, SCL_long, etc.  The SCL functions
+use arguments that are standard: long, int, size_t, etc.
+
+
+=======
+Systems
+=======
+
+These are the systems on which I know SCL builds:
+
+     o Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4, i386
+     o Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9, x86_64
+     o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1
+     o Win98 WinNT Win2K WinXP, MS Visual C/C++ 6
+
+
+=========
+Build SCL
+=========
+
+Linux:  Go into the src directory and type "make".  Build with optimization with
+        the command "make optimize".  Build with debugging symbols with the
+        command "make debug".
+
+Windows:  Double-click the MS Visual C/C++ 6 workspace file, scl.dsw, in
+          the _MSVC6 folder.  Use the IDE to build.
+
+
+===========
+Install SCL
+===========
+
+Linux:  Go into the src directory and type "make install"; probably you need to
+        be root to do install into a directory that is outside of your home
+        directory tree.  The default install location prefix is /usr/local;
+        this default is set in the make variable INSTALL_PREFIX.
+
+        The SCL header files install into ${INSTALL_PREFIX}/include/scl.
+        The SCL library files install into ${INSTALL_PREFIX}/lib.
+        The scl-config script installs into ${INSTALL_PREFIX}/bin.
+
+        To change the default install location prefix, specify the location on
+        the make command line like this:
+
+             make INSTALL_PREFIX=~/local install
+
+        This will install the header files into ~/local/include/scl, library
+        files into ~/local/lib, and the scl-config script into ~/local/bin.
+
+        Note: The path ${INSTALL_PREFIX}/bin should be in your $PATH, or
+              otherwise you will not be able to use the scl-config script.
+
+Windows:  I dunno windows.
+
+
+=======
+Use SCL
+=======
+
+Include the SCL header file for the container e.g., include SCL_tree.h in any
+file that uses an SCL tree; include SCL_hash.h in any file that uses an SCL
+hash table.  Don't include SCL.h; it is used by the other SCL header files when
+needed.
+
+If there is not sufficient documentation in the <libscl>/doc directory, then use
+the header files in the <libscl>/src directory and the test programs under the
+<libscl>/test directory for reference.
+
+Linux:  When compiling code that uses SCL, the compiler needs an include path to
+        the SCL header files.  Use the scl-config script on the compilation
+        command line like this to generate the appropriate compiler command-line
+        option:
+
+             gcc -c -o test.o `scl-config --cflags` test.c
+
+        The --cflags option to the scl-config script returns the include path;
+        you can try it on the command line to see what it is.
+
+        When linking code with SCL, use the scl-config script to generate the
+        link command-line options for linking with SCL.  For linking with the
+        shared library use `scl-config --shared-libs`:
+
+             gcc -o test test.o `scl-config --shared-libs` -lc
+
+        For linking with the static library use `scl-config --static-libs`:
+
+             gcc -o test test.o `scl-config --static-libs` -lc
+
+Windows:  I dunno windows.
+
+
+======================================
+Debugging: How to Make a gdb Backtrace
+======================================
+
+Linux:  Backtraces can help me fix bugs that make applications crash.  If you
+        find a bug that crashes an application, please send a backtrace with
+        your bug report.
+
+        To make a useful backtrace, you need a core file with debugging
+        information produced by the application when it crashes.
+
+        When it does crash, type the following from your shell:
+
+             script
+             gdb <application> core
+
+        Then, in the gdb prompt type "bt".  Blammo, you've got the backtrace in
+        front of you.  Quit from gdb by typing "quit", then in the shell prompt
+        type "quit".  The file named typescript will contain the backtrace.
+
+
+-- 
+Douglas Jerome <djerome@users.sourceforge.net> 
+

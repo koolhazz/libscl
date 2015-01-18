@@ -1,0 +1,129 @@
+----------------
+SCL-1.0.3 ERRATA
+----------------
+
+
+================================================================================
+Bugs & Limitations
+================================================================================
+
+1.	There is no way to delete a node in an SCL tree.
+
+
+================================================================================
+To Do
+================================================================================
+
+1.	Get somebody to develop an autoconf/automake build process.
+
+
+================================================================================
+Change Log
+================================================================================
+
+##### Changes in SCL version 1.0.3 (31mar10):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- Fixed a warning generated on 64-bit systems (hash.c)
+- Changed __TIMESTAMP__ to avoid GCC problems (Makefile, config.c)
+- Fixed vector_back() off-by-one bug (vector.c).
+- Fixed the definition of NULL for 64-bit systems (SCL.h).
+
+Things otherwise different:
+- Fixed INSTALLPREFIX to be INSTALL_PREFIX (Makefile).
+- Minor formate update in the creation of make_config.h (Makefile).
+- Removed verbose flag -v from commands (Makefile).
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 1.0.2 (09jun06):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Mindless, miscellaneous format finessing of source code and Makefile.
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 1.0.1 (27sep05):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- Fixed the script that builds the regression test.
+- Fixed the scl_conf_credits() function.
+
+Things otherwise different:
+- Added _POSIX_C_SOURCE for <unistd.h> in SCL.h.
+- Revised Makefile for self-consistancy, and changed some comment format.
+- Changed the MS Visual C 6.0 to make a Release build.
+- Updated the User's Guide.
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 1.0.0 (11jul05):
+
+New Functionality:
+- Completed el cheapo test suite.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Revised version data in Makefile and _MSVC6/win32_config.h for version 1.0.0.
+- Added ".depend" file usae in Makefile for better file dependency with make.
+- Mindless rename of inclusion-control macros (SCL*.h).
+- Updated the user's guide, 06jul05, for SCL version 1.0.x.
+- Changed tree_update() to tree_replace() (SCL_tree.h, tree.c).
+- Did some work on the README file.
+- Removed prototype for the non-existing function "list_replace" (SCL_list.h).
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 0.5.0 (16dec04):
+
+New Functionality:
+- hash_insert() returns SCL_DUPKEY for duplicate keys.
+- map_insert() returns SCL_DUPKEY for duplicate keys.
+- Added function hash_key_get() (SCL_hash.h, hash.c).
+
+Bugs Fixed:
+- Solaris library name is not upper case (Makefile).
+- Conditionally define uint32_t only on not Solaris (SCL.h).
+
+Things otherwise different:
+- Did some work on a User's Guide (users.guide).
+- Cast-away the results of invoking putfn (stackbuf.c).
+- Changed "push" to "put" and "pull" to "get (SCL_queuebuf.h, queuebuf.c).
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 0.1.1 (02dec04):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- Conditionally define uint32_t only on Linux (SCL.h).
+- Fixed OPTIMIZ to check /proc/cpuinfo only for Linux (Makefile).
+- Removed -std=c99 and -Wextra from the gcc command line (Makefile).
+- WIN32 configuration #define bug (win32_config.h).
+
+Things otherwise different:
+- Added some documentation (users.guide).
+- Updated the CREDITS file.
+- Moved the contents of the INSTALL file into a README file.
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 0.1.0 (29nov04):
+
+(initial version)

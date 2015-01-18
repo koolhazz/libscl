@@ -1,0 +1,1738 @@
+SCL User's Guide
+for SCL version 1.1.X
+
+This file is part of the SCL software.
+The license that this software falls under is as follows:
+
+Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+
+Permission is granted to copy, distribute and/or modify this document under the
+terms of the GNU Free Documentation License, Version 1.2 or any later version
+published by the Free Software Foundation; with no Invariant Sections, no
+Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included
+in the section entitled "GNU Free Documentation License".
+
+FILE NAME
+
+	$RCSfile: users.guide.txt,v $
+	$Revision: 1.15 $
+	$Date: 2010/04/14 03:43:36 $
+
+PROGRAM INFORMATION
+
+	Developed by:	SCL project
+	Developer:	Douglas Jerome, drj, <douglas@backstep.org>
+
+FILE DESCRIPTION
+
+	This document is the programmer's User Guide for version 1.1.X of SCL,
+	the Small Container Library.
+
+CHANGE LOG
+
+	13apr10	drj	Fixed a typographical error in the vector description.
+	04apr10	drj	Added callback context pointer to API, now SCL 1.1.X.
+	30jul05	drj	Obsessive-compulsive format changes.
+	30jul05	drj	Added section 5 subsection headings.
+	30jul05	drj	Added information for creating a gdb backtrace.
+	30jul05	drj	Changed the email address at the top of the file.
+	28jul05	drj	Piddling grammar fixes.
+	05jul05	drj	Updated version of SCL to 1.0.X.
+	05jul05	drj	Updated copyright dates.
+	05jul05	drj	Re-worded part of 2.1 Compiling and Installing SCL.
+	05jul05	drj	Changed tree_update() to tree_replace().
+	20jun05	drj	Removed reference to non-existing list_replace().
+	19dec04	drj	Finished and baselined first version.
+	01dec04	drj	Started writing this SCL User's Guide.
+
+
+
+                                 User's Guide
+                                      for
+                       SCL, the Small Container Library
+
+                                  [Programming
+                                   with SCL]
+
+
+
+
+Document Release Date
+April 13, 2010
+
+
+
+
+Permission is granted to copy, distribute and/or modify this document under the
+terms of the GNU Free Documentation License, Version 1.2 or any later version
+published by the Free Software Foundation; with no Invariant Sections, no
+Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included
+in the section entitled "GNU Free Documentation License".
+
+
+
+
+                               Table of Contents
+Section                                                                     Page
+
+1 INTRODUCTION
+  1.1 Overview
+  1.2 License
+
+2 BUILDING SCL
+  2.1 Compiling and Installing SCL - Linux, Solaris
+  2.2 Compiling and Installing SCL - Windows
+
+3 USING SCL
+  3.1 Accessing the Installed SCL Header Files and Library(s) - Linux, Solaris
+  3.2 Accessing the Installed SCL Header Files and Library(s) - Windows
+
+4 PROGRAMMING WITH SCL
+  4.1 Header Files
+  4.2 Containers
+  4.3 Function Return Values
+
+5 CONTAINER OVERVIEWS
+  5.1 Config - Configuration Functions
+  5.2 Hash - Hash Table Container
+  5.3 List - List Container
+  5.4 Map - Associative Container
+  5.5 Queuebuf - Queue Buffer Container
+  5.6 Stackbuf - Stack Buffer Container
+  5.7 Symbol - Symbol Container
+  5.8 Tree - Balanced Binary Tree Container
+  5.9 Vector - Vector (Array) Container
+
+
+
+==============
+1 INTRODUCTION
+==============
+
+============
+1.1 Overview
+============
+
+SCL is a library of C functions implementing several general purpose containers
+(abstract data types) that provide hash tables, linked list, queue, stack,
+symbol, balanced binary tree, and indexed array (vector).  Multiple independent
+instances of the same container (abstract type) can be used, each with its own
+arbitrary contents.
+
+SCL tries to work with you and does not redefine the world with things like
+SCLint, SCLlong, etc.  SCL functions use arguments that are standard types,
+such as long, int, size_t.
+
+SCL is distributed as source code under the GNU Library Public License and is
+freely available at:
+
+	http://www.sourceforge.net/projects/libscl/
+
+The SCL source code is distributed in several formats; zip and tar compressed
+with gzip and bzip2 should be available.
+
+These are the systems on which I know SCL builds:
+
+	o x86_64 Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9
+	o i386 Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
+	o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1
+	o Windows 2000, MS Visual C/C++ 6
+
+===========
+1.2 License
+===========
+
+SCL - Small Container Library
+
+Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+
+SCL is free software; you can redistribute it and/or modify it under the terms
+of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 2.1 of the License, or (at your option) any later
+version.
+
+SCL is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this library; if not, write to the Free Software Foundation Inc., 59
+Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+I ask that something like the following message be included in all derived
+works:
+
+	Portions developed by: Douglas Jerome <douglas@backstep.org>
+
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.  THERE
+ARE NO REPRESENTATIONS ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.
+DOUGLAS JEROME SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY THE USERS OF
+THIS SOFTWARE.
+
+==============
+2 BUILDING SCL
+==============
+
+SCL is completely written in C.  The SCL code is developed with strict Standard
+C (ANSI/ISO) compliance enforced by compiler options.  The SCL makefile in the
+src directory has compiler command options for "Standard C" compliance.
+
+Building SCL results in the creation of an SCL library, or libraries, depending
+on the OS.
+
+On Linux and Solaris, building SCL creates a static library "libscl.a" and
+shared object library "libscl.so.<version>" where <version> is some version
+numbering.  There also are a few symlinks to the shared object library.
+
+On Windows, building SCL creates "scl.dll".
+
+=================================================
+2.1 Compiling and Installing SCL - Linux, Solaris
+=================================================
+
+_Compile_SCL_
+
+Go into the src directory and type "make"; this builds SCL without optimization
+and without any debugging symbols.  Use the command "make optimize" to build
+SCL with optimization.  Use the command "make debug" to build SCL with debugging
+symbols.
+
+_Install_SCL_
+
+Go into the src directory and type "make install"; probably you need to be root
+to do this.  The default install location prefix is /usr/local; this default is
+set in the make variable INSTALL_PREFIX.
+
+The SCL header files install into ${INSTALL_PREFIX}/include/scl.
+
+The SCL library files install into ${INSTALL_PREFIX}/lib.
+
+The scl-config script installs into ${INSTALL_PREFIX}/bin.
+
+To change the default install location prefix, specify the location on the make
+command line like this:
+
+	make INSTALL_PREFIX=${HOME}/local install
+
+This will install the header files into ${HOME}/local/include/scl, library files
+into ${HOME}/local/lib, and the scl-config script into ${HOME}/local/bin.
+
+==========================================
+2.2 Compiling and Installing SCL - Windows
+==========================================
+
+Compile SCL:	Double-click the MS Visual C/C++ 6 workspace file, scl.dsw, in
+		the _MSVC6 folder.  Use the IDE to build.
+
+Install SCL:	I dunno windows.
+
+===========
+3 USING SCL
+===========
+
+============================================================================
+3.1 Accessing the Installed SCL Header Files and Library(s) - Linux, Solaris
+============================================================================
+
+_scl-config_
+
+scl-config is an executable shell script; it should become installed when the
+SCL header files and library(s) are installed.  scl-config takes one or more
+command-line options; for each command-line option scl-config prints some text
+to standard output.  If no command-line option is given, then scl-config
+displays the list of command-line options that it accepts.  The command-line
+options to scl-config are:
+
+	Option		Returned Value Printed to Standard Output
+	--------------	-----------------------------------------
+	
+	--prefix	The common path prefix to the installation directories.
+
+	--credits	A copyright notice.
+
+	--version	The SCL version.
+
+	--cflags	The include file path needed to compile programs that
+			use SCL.  This is printed as a compiler command-line
+			option, like this: -I/usr/local/include/scl
+
+	--shared-libs	The SCL shared library file path and name needed to
+			link programs that use SCL.  This is printed as a
+			linker command-line option, like this:
+			-L/usr/local/lib -Wl,-rpath,/usr/local/lib -lscl
+
+	--static-libs	The SCL static library file path and name needed to
+			link programs that use SCL.  This is printed as a
+			linker command-line option, like this:
+			-L/usr/local/lib -lscl
+
+_Header_Files_
+
+When compiling code that uses SCL, the compiler needs an include path to the SCL
+header files.  Use the scl-config script on the compilation command line like
+this to generate the appropriate compiler command-line option:
+
+	gcc -c -o test.o `scl-config --cflags` -I- test.c
+
+The --cflags option to the scl-config script returns the include path; you can
+try it on the command line to see what it is.
+
+There typically are two include file paths, one for local files and one for
+system files.  The local include file path is used like this #include "..." and
+the system include file path is used like this #include <...>.  The -I- compiler
+command-line option switches command-line include path options from the local to
+the system include path.  Therefore, in the above example the path to the SCL
+header files is in the local include file path.
+
+_Library_Files_
+
+When linking code with SCL, the linker needs a path to the SCL library and the
+SCL library file itself needs to be included in the link command.  Use the
+scl-config script to generate the link command-line options for linking with
+SCL.
+
+For linking with the shared library use `scl-config --shared-libs`, like this:
+
+	gcc -o test test.o `scl-config --shared-libs` -lc
+
+For linking with the static library use `scl-config --static-libs`, like this:
+
+	gcc -o test test.o `scl-config --static-libs` -lc
+
+_How_to_Make_a_gdb_Backtrace_
+
+Backtraces can help me fix bugs that make applications crash.  If you find a
+bug that crashes an application, please send a backtrace with your bug report.
+
+To make a useful backtrace, you need a core file with debugging information
+produced by the application when it crashes.
+
+When it does crash, type the following from your shell:
+
+	script
+	gdb <application> core
+
+Then, in the gdb prompt type "bt".  Blammo, you've got the backtrace in front
+of you.  Quit from gdb by typing "quit", then in the shell prompt type "quit".
+The file named typescript will contain the backtrace.
+
+=====================================================================
+3.2 Accessing the Installed SCL Header Files and Library(s) - Windows
+=====================================================================
+
+I dunno windows.
+
+======================
+4 PROGRAMMING WITH SCL
+======================
+
+================
+4.1 Header Files
+================
+
+The Small Container Library, SCL, is organized in a simple way: for each
+container there is one ".h" header file that specifies the container's external
+interface.  The name of an SCL header file is the simple name of a container
+with a prefix of "SCL_".  For example, the SCL balanced binary tree header file
+is named "SCL_tree.h".
+
+There is an exception.  The SCL header files "SCL.h" does not belong to a
+particular container; it is a collection of general SCL definitions.  The other
+SCL header files include "SCL.h" and it is not intended to be included directly
+by user's source code.
+
+==============
+4.2 Containers
+==============
+
+SCL is a library of containers, "semi-containers", and one non-container.
+
+Container   Type   Capability                               Header File
+---------   ----   ----------                               -----------
+config ..... n ... SCL configuration functions ............ SCL_config.h
+hash ....... c ... collision table, ASCII-Z key ........... SCL_hash.h
+list ....... c ... doubly-linked list, size_t indexible ... SCL_list.h
+map ........ c ... collision table, long-size key ......... SCL_map.h
+queuebuf ... s ... bytes queue, single queue block ........ SCL_queuebuf.h
+stackbuf ... s ... bytes stack, external block storage .... SCL_stackbuf.h
+symbol ..... s ... data type abstraction .................. SCL_symbol.h
+tree ....... c ... linked balanced tree, long-size key .... SCL_tree.h
+vector ..... c ... indexed array, size_t indexible ........ SCL_vector.h
+
+Type   Legend
+----   ------
+  n  - non-container
+  s  - semi-container
+  c  - container
+
+The SCL differentiation of containers from semi-containers is that containers
+can contain any sort of object, or data type, and semi-containers are more
+specialized in what they contain.
+
+SCL Containers, being implemented in C, don't really contain a copy of (have
+internal contents at run-time) any arbitrary data type.  They can be said to
+"contain" any sort of object, or data type, by using a void pointer to whatever
+is given to them.  Because SCL containers use void pointer references to their
+contents they have no information about the data type being contained; this
+results in particular container behavior:
+
+o  SCL containers cannot allocate or deallocate contents.  [SCL containers do
+   allocate and deallocate for internal usage.  Adding/deleting contents to/from
+   a container typically results in the container allocating/deallocating for
+   the container's internal store, NOT for the contents being added/deleted.]
+
+o  A single SCL container can contain contents of different data types.  The
+   user, of course, is responsible for knowing which contents are of which data
+   type.
+
+o  When contents are deleted from an SCL container, the contents themselves
+   still exist, because the container only had a void pointer to the contents.
+   The user is responsible for managing the contents, including deallocation if
+   the contents were dynamically allocated.  SCL container delete functions
+   return the void pointer to the contents; this supports the user not loosing
+   the content's reference.
+
+o  The SCL allocator and deallocator are exposed in the SCL external interface.
+   These functions are:
+
+	void* scl_alloc (size_t size); /* sets allocated memory to zero */
+	void scl_free (void* item); /* free only items from scl_alloc() */
+
+o  These are exposed to support a consistent allocation/deallocation mechanism
+   between SCL and the SCL user.  Here is an example of where this is important:
+   Some containers, or semi-containers, have a size of the contents along with
+   a pointer to the contents.  In this case, the container can duplicate the
+   contents when requested (as opposed to returning a copy of the pointer to
+   the contents).  The container/semi-container duplicates the contents by
+   allocating for the appropriate size and copying from the pointer reference
+   into the allocated memory.  The user is then responsible for deallocating
+   the duplicated contents.  The user's deallocation needs to be compatible
+   with the SCL allocation.
+
+The non-container is "config"; it is a group of functions that return, decode,
+or use SCL configuration.
+
+==========================
+4.3 Function Return Values
+==========================
+
+Some SCL functions return an integer data value; don't confuse the returned
+integer data value with a status indication.
+
+Many SCL functions return an integer status value.  The general scheme for SCL
+integer status return values are that 0 indicates no error, negative values
+indicate an error.  The negative error values are small in magnitude, and SCL
+defines corresponding symbolic error names:
+
+Binary Value  Symbolic Name    General Meaning
+------------  -------------    ---------------
+    0 ....... SCL_OK ......... Nothing wrong, all ok.
+   -1 ....... SCL_ERROR ...... General, unspecified  error.
+   -2 ....... SCL_BADARG ..... Bad function argument.
+   -3 ....... SCL_CORRUPT .... Internal (memory) corruption.
+   -4 ....... SCL_NOMEM ...... Can not allocate memory.
+   -5 ....... SCL_NOTFOUND ... Can not find item.
+   -6 ....... SCL_NOSVC ...... Service not available.
+   -7 ....... SCL_DUPKEY ..... Duplicate key.
+
+Some SCL functions may return a positive number upon success; the positive
+number being actual data, not a status value.  In this case the integer return
+value can sometimes be a status indication (when negative) and sometimes be
+actual data (when positive).  The negative-value status indication is said to
+be "out of band", because it is not actual data, and this sort of interface is
+said to be Not Good.  But it is really convenient.
+
+The SCL function scl_statstr() takes an integer SCL status value as an argument
+and returns a constant character string of text that is a short description.
+It might be used like this:
+
+	stat = list_insert (list, 5, data);
+	if (stat != SCL_OK) {
+		printf ("error inserting in list: %s\n", scl_statstr(stat));
+	}
+
+Another case of SCL functions returning "out of band" values are functions that
+return a pointer when successful, or NULL upon failure.  Most of these return a
+pointer, or NULL, as an SCL data type such as SCL_list_t, SCL_tree_t, and
+SCL_iterator_t.
+
+An SCL_iterator_t can be used with any SCL container that has iterators, but
+access ONLY the same container that set the iterator.
+
+For instance, this is OK:
+
+	SCL_iterator_t   iterator; /* carefully use with any container */
+	void*            data;
+
+	iterator = hash_at (hash, "this is the key");
+	if (iterator == NULL) return;
+	data = hash_data_get (iterator);
+
+	iterator = list_end (list);
+	if (iterator == NULL) return;
+	data = list_data_get (iterator);
+
+This is a big error:
+
+	SCL_iterator_t   iterator; /* carefully use with any container */
+	void*            data;
+
+	iterator = hash_at (hash, "this is the key");
+	if (iterator == NULL) return;
+	data = hash_data_get (iterator);
+	data = list_data_get (iterator); /* OUCH! hash table iterator */
+
+=====================
+5 CONTAINER OVERVIEWS
+=====================
+
+====================================
+5.1 Config - Configuration Functions
+====================================
+
+Functions
+
+scl_conf_credits     - get string containing the SCL credits
+scl_conf_version     - get string containing the SCL version
+scl_conf_date        - get string containing the date of the SCL build
+scl_conf_cflags      - get string containing compiler command-line options
+scl_conf_shared_libs - get string containing linker command-line options
+scl_conf_static_libs - get string containing linker command-line options
+scl_statstr          - get string describing SCL function return value
+scl_alloc            - dynamically allocate memory
+scl_free             - free dynamically allocated memory
+
+Prototypes (SCL_config.h)
+
+const char* scl_conf_credits (void);
+const char* scl_conf_version (void);
+const char* scl_conf_date (void);
+const char* scl_conf_cflags (void);
+const char* scl_conf_shared_libs (void);
+const char* scl_conf_static_libs (void);
+const char* scl_statstr (int stat);
+void* scl_alloc (size_t size);
+void  scl_free (void* item);
+
+===============================
+5.2 Hash - Hash Table Container
+===============================
+
+Functions
+
+hash_new      - create a new hash table with an optional hash function
+hash_del      - delete a hash table
+hash_erase    - erase the contents of a hash table
+hash_size     - get the size of a hash table
+hash_count    - get the number of items in a hash table
+hash_insert   - insert an item into a hash table
+hash_replace  - replace an existing item in a hash table
+hash_remove   - remove an item from a hash table
+hash_access   - get an item in a hash table
+hash_at       - return an iterator
+hash_begin    - return the first iterator
+hash_end      - return the last iterator
+hash_next     - return the next iterator
+hash_prev     - return the previous iterator
+hash_data_set - replace an existing item in a hash table from an iterator
+hash_data_get - get an item in a hash table from an iterator
+hash_key_get  - get an item's key in a hash table from an iterator
+hash_foreach  - iterate through an entire hash table
+
+Prototypes (SCL_hash.h)
+
+SCL_hash_t hash_new (SCL_mdfn_t f);
+void hash_del (SCL_hash_t h);
+void hash_erase (SCL_hash_t h);
+size_t hash_size (SCL_hash_t h);
+size_t hash_count (SCL_hash_t h);
+int hash_insert (SCL_hash_t h, const char* k, const void* d);
+int hash_replace (SCL_hash_t h, const char* k, const void* d);
+void* hash_remove (SCL_hash_t h, const char* k);
+void* hash_access (SCL_hash_t h, const char* k);
+SCL_iterator_t hash_at (SCL_hash_t h, const char* k);
+SCL_iterator_t hash_begin (SCL_hash_t h);
+SCL_iterator_t hash_end (SCL_hash_t h);
+SCL_iterator_t hash_next (SCL_iterator_t i);
+SCL_iterator_t hash_prev (SCL_iterator_t i);
+void hash_data_set (SCL_iterator_t i, const void* d);
+void* hash_data_get (SCL_iterator_t i);
+const char* hash_key_get (SCL_iterator_t i);
+void hash_foreach (SCL_hash_t h, SCL_cbfn_t f, void* c);
+
+Include the file SCL_hash.h for the SCL hash table prototypes.
+
+The hash table container is used for storage and retrieval of data values that
+are associated with keys, often called "key-value pairs".  A key is an ASCII-Z
+string (an ASCII-Z string is the typical null character-terminated string used
+in C).  The data value part of a key-value pair is anything to which a void
+pointer can point.
+
+The key is "hashed" to generate an index into the table; the data is stored in
+the table at the index.  A collision happens when two keys hash to the same
+index; this is why hash tables are sometimes called collision tables.
+Collisions are resolved by a linear search for a next open spot in the table,
+into which the data is put.
+
+An user-supplied hash function can be given to hash_new(), and the hash table
+will use it instead of the internal default hash function.  Use NULL as the
+argument to hash_new() and the internal default hash function will be used.  If
+used, the user-supplied hash function should be declared like this:
+
+	int32_t mdfn (const char* messageText, size_t messageLength);
+
+Some hash functions are called Message Digest functions; they take ASCII-Z
+"messages" and create a "digest".
+
+SCL hash tables have a size that is a number of indexible locations; each
+indexible location can hold a list of distinct key-value pairs.  The index for
+a key-value pair is generated by "hashing" the key.  The size of a hash table
+is gotten by hash_size(), and the number of items (key-value pairs) is gotten
+by hash_count().
+
+The only method of putting data into a hash table is to use hash_insert(), this
+function returns a SCL_DUPKEY error value if the key is a duplicate of some
+existing key in the hash table.
+
+A hash table container uses a small amount of memory when created and grows as
+items are added.  At particular times, when the number of items in a hash table
+is some multiple of available hash table indexes, the hash table grows by at
+least one factor of 2 (probably 2*2, which is 4).  This happens only during the
+hash_insert() function, so sometimes that function takes a "long" time while
+the entire hash table is rebuilt.
+
+The hash_remove() function returns the data value being removed from a hash
+table.
+
+The hash_foreach() function iterates through each data value in a hash table
+and invokes the user-supplied callback function for each data value.  The order
+of the data values that is given to the user-supplied callback function may be
+strange.  The user-supplied callback function should be declared like this:
+
+	int cbfn (
+                 const char* key,
+                 long        hashTableIndex,
+                 void*       data,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to hash_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the iteration
+being performed by hash_foreach() is terminated.
+
+The hash_foreach() callback function argument CANNOT be NULL, unlike the
+user-supplied hash function argument to hash_new().
+
+=========================
+5.3 List - List Container
+=========================
+
+Functions
+
+list_new           - create a new list
+list_del           - delete a list
+list_erase         - erase the contents of a list
+list_count         - get the number of items in a list
+list_insert        - insert an item into a list
+list_push_front    - insert an item into the front of a list
+list_push_back     - insert an item into the back of a list
+list_pop_front     - remove an item from the front of a list
+list_pop_back      - remove an item from the back of a list
+list_remove        - remove an item from a list
+list_front         - get an item in the front of a list
+list_back          - get an item in the back of a list
+list_access        - get an item in a list
+list_at            - return an iterator
+list_begin         - return the first iterator
+list_end           - return the last iterator
+list_next          - return the next iterator
+list_prev          - return the previous iterator
+list_data_set      - replace an existing item in a list from an iterator
+list_data_get      - get an item in a list from an iterator
+list_insert_before - insert an item into a list before an iterator
+list_insert_after  - insert an item into a list after an iterator
+list_remove_at     - remove from a list at an iterator
+list_foreach       - iterate through an entire list
+list_join          - add a list the end of another
+list_splice        - add a list into another
+list_reverse       - reserve a list
+
+Prototypes (SCL_list.h)
+
+SCL_list_t list_new (void);
+void list_del (SCL_list_t l);
+void list_erase (SCL_list_t l);
+size_t list_count (SCL_list_t l);
+int list_insert (SCL_list_t l, size_t i, const void* d);
+int list_push_front (SCL_list_t l, const void* d);
+int list_push_back (SCL_list_t l, const void* d);
+void* list_pop_front (SCL_list_t l);
+void* list_pop_back (SCL_list_t l);
+void* list_remove (SCL_list_t l, size_t i);
+void* list_front (SCL_list_t l);
+void* list_back (SCL_list_t l);
+void* list_access (SCL_list_t l, size_t i);
+SCL_iterator_t list_at (SCL_list_t l, size_t i);
+SCL_iterator_t list_begin (SCL_list_t l);
+SCL_iterator_t list_end (SCL_list_t l);
+SCL_iterator_t list_next (SCL_iterator_t i);
+SCL_iterator_t list_prev (SCL_iterator_t i);
+void list_data_set (SCL_iterator_t i, const void* d);
+void* list_data_get (SCL_iterator_t i);
+int list_insert_before (SCL_list_t l, SCL_iterator_t i, const void* d);
+int list_insert_after (SCL_list_t l, SCL_iterator_t i, const void* d);
+void* list_remove_at (SCL_list_t l, SCL_iterator_t i);
+void list_foreach (SCL_list_t l, SCL_cbfn_t f, void* c);
+void list_join (SCL_list_t l1, SCL_list_t l2);
+void list_splice (SCL_list_t l1, size_t i, SCL_list_t l2);
+void list_reverse (SCL_list_t l);
+
+Include the file SCL_list.h for the SCL list prototypes.
+
+The list container is used for storage and retrieval of data values with rapid
+insertion and deletion at the ends (front and back).  The data value is anything
+to which a void pointer can point.  Lists can conveniently implement stacks and
+queues.
+
+The list_foreach() function iterates through each data value in a list and
+invokes the user-supplied callback function for each data value.  The first
+argument to the callback function is set to NULL with list_foreach(), and the
+callback function should be declared like this:
+
+	int cbfn (
+                 const char* unused,
+                 long        listIndex,
+                 void*       data,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to list_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the iteration
+being performed by list_foreach() is terminated.
+
+The list_foreach() callback function argument CANNOT be NULL.
+
+===============================
+5.4 Map - Associative Container
+===============================
+
+Functions
+
+map_new      - create a new map
+map_del      - delete a map
+map_erase    - erase the contents of a map
+map_size     - get the size of a map
+map_count    - get the number of items in a map
+map_insert   - insert an item into a map
+map_replace  - replace an existing item in a map
+map_remove   - remove an item from a map
+map_access   - get an item in a map
+map_at       - return an iterator
+map_begin    - return the first iterator
+map_end      - return the last iterator
+map_next     - return the next iterator
+map_prev     - return the previous iterator
+map_data_set - replace an existing item in a map from an iterator
+map_data_get - get an item in a map from an iterator
+map_foreach  - iterate through an entire map
+
+Prototypes (SCL_map.h)
+
+SCL_map_t map_new (void);
+void map_del (SCL_map_t m);
+void map_erase (SCL_map_t m);
+size_t map_size (SCL_map_t m);
+size_t map_count (SCL_map_t m);
+int map_insert (SCL_map_t m, long k, const void* d);
+int map_replace (SCL_map_t m, long k, const void* d);
+void* map_remove (SCL_map_t m, long k);
+void* map_access (SCL_map_t m, long k);
+SCL_iterator_t map_at (SCL_map_t m, long k);
+SCL_iterator_t map_begin (SCL_map_t m);
+SCL_iterator_t map_end (SCL_map_t m);
+SCL_iterator_t map_next (SCL_iterator_t i);
+SCL_iterator_t map_prev (SCL_iterator_t i);
+void map_data_set (SCL_iterator_t i, const void* d);
+void* map_data_get (SCL_iterator_t i);
+void map_foreach (SCL_map_t m, SCL_cbfn_t f, void* c);
+
+Include the file SCL_map.h for the SCL map prototypes.
+
+The map container is used for storage and retrieval of data values that are
+associated with keys, often called "key-value pairs".  A key is a long.  The
+data value part of a key-value pair is anything to which a void pointer can
+point.
+
+An SCL map is very much like an SCL hash table, and is implemented almost
+identically.
+
+The only method of putting data into a map is to use map_insert(), this
+function returns a SCL_DUPKEY error value if the key is a duplicate of some
+existing key in the map.
+
+A map container uses a small amount of memory when created and grows as items
+are added.  At particular times, when the number of items in a map is some
+multiple of available map indexes, the map grows by at least one factor of 2
+(probably 2*2, which is 4).  This happens only during the map_insert()
+function, so sometimes that function takes a "long" time while the entire map
+is rebuilt.
+
+The map_foreach() function iterates through each data value in a map and
+invokes the user-supplied callback function for each data value.  The order of
+the data values that is given to the user-supplied callback function may be
+strange.  The first argument to the callback function is set to NULL with
+map_foreach(), and the callback function should be declared like this:
+
+	int cbfn (
+                 const char* unused,
+                 long        mapKey,
+                 void*       data,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to map_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the iteration
+being performed by map_foreach() is terminated.
+
+The map_foreach() callback function argument CANNOT be NULL.
+
+=====================================
+5.5 Queuebuf - Queue Buffer Container
+=====================================
+
+Functions
+
+queuebuf_init        - initialize a block of memory for queuebuf usage
+queuebuf_erase       - erase a block of queuebuf memory
+queuebuf_count       - get the number of items in a queuebuf
+queuebuf_header_size - get the size of header in the queuebuf memory block
+queuebuf_buff_size   - get the size of queuebuf memory block data buffer
+queuebuf_buff_used   - amount of queuebuf data buffer currently used
+queuebuf_buff_avail  - amount of queuebuf data buffer currently not used
+queuebuf_put         - put message into back of queuebuf data buffer
+queuebuf_peek        - get message from front of queuebuf data buffer
+queuebuf_get         - remove message from front of queuebuf data buffer
+queuebuf_get_alloc   - remove message from front of queuebuf data buffer
+queuebuf_foreach     - iterate through messages in the queuebuf data buffer
+
+Prototypes (SCL_queuebuf.h)
+
+int queuebuf_init (void* q, size_t s, size_t n);
+void queuebuf_erase (void* q);
+size_t queuebuf_count (void* q);
+size_t queuebuf_header_size (void* q);
+size_t queuebuf_buff_size (void* q);
+size_t queuebuf_buff_used (void* q);
+size_t queuebuf_buff_avail (void* q);
+int queuebuf_put  (void* q, const void* d, size_t s);
+int queuebuf_peek (void* q, void** d, size_t* s);
+int queuebuf_get (void* q, void* d, size_t* s);
+int queuebuf_get_alloc (void* q, void** d, size_t* s);
+void queuebuf_foreach (void* q, SCL_cbfn_t f, void* c);
+
+Include the file SCL_queuebuf.h for the SCL queuebuf prototypes.
+
+The queuebuf container implements a message queue in a block of memory.  The
+messages are a sequence of bytes.
+
+The memory block is not allocated by the queuebuf container; it is given to,
+and initialized by, the queuebuf container.  The memory block's allocation,
+static or dynamic, should not affect the queuebuf container functions.  The
+queuebuf container code never explicitly stores a pointer or any address in the
+memory block; all queuebuf management is implemented using indexes and counts.
+
+The rationale for the queuebuf container implementation is that the memory
+block can be a block of shared memory that is shared between processes e.g., a
+SYS V IPC shared memory segment allocated by shmget() wherein each process
+accesses the same shared memory block, though each with process-specific
+address.  The queuebuf container continues to operate properly in a threaded
+environment, and in a single-context programming environment.
+
+Of course, in a multi-context programming environment (thread or process),
+mutual exclusion locking/unlocking must be used around the queuebuf container
+usage.  SCL does not have mutual exclusion locking/unlocking.
+
+The queuebuf_init() function takes a block of memory and initializes it for
+queuebuf operation.  The memory block, size of the memory block and the maximum
+number of messages for the queuebuf are arguments to queuebuf_init().  The
+return value of queuebuf_init() is the total number of bytes available for
+messages.  Some of the memory block is used for internal message management,
+and some for the actual messages.
+
+Check the return value from queuebuf_init().  It indicates the number of bytes
+available in the queuebuf for messages.  It is a negative number when the size
+of the memory block is not big enough for the maximum number of messages.
+
+Here is an example of using queuebuf_init():
+
+	void*  qbuf;
+	size_t size;
+	int    dataSize;
+
+	size = 10000;
+	qbuf = scl_alloc (size); /* this one is not shared between processes */
+	if (qbuf == NULL) return -1;
+
+	dataSize = queuebuf_init (qbuf, size, 10); /* up to 10 messages */
+	if (dataSize < 7000) { /* must have room for 7000 bytes */
+		free (qbuf)
+		return NULL;
+	}
+
+	return qbuf;
+
+Use the function queuebuf_header_size() to find out the overhead of the
+internal management; it is the number of bytes in the memory block used for the
+header.
+
+queuebuf_buff_size() returns the number of bytes available for message; this is
+the data buffer area of the memory block.  This should be the same number
+returned by queuebuf_init().
+
+queuebuf_get() removes the oldest message from the queuebuf, copying it into a
+buffer provided by the calling function.  The calling function may not have the
+appropriate size buffer for the message returned by queuebuf_get(), so an
+alternate function queuebuf_get_alloc() can be used.
+
+queuebuf_get_alloc() removes the oldest message from the queuebuf, copying it
+into a buffer the that the container function queuebuf_get_alloc() dynamically
+allocates.  Remember to free this buffer with scl_free().
+
+The queuebuf_foreach() function iterates through each message in a queuebuf and
+invokes the user-supplied callback function for each message.  The order of the
+messages that is given to the user-supplied callback function is from newest to
+oldest.  The first argument to the callback function is set to NULL with
+queuebuf_foreach(), and the callback function should be declared like this:
+
+        int cbfn (
+                 const char* unused,
+                 long        messageSize,
+                 void*       messageData,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to queuebuff_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the iteration
+being performed by queuebuf_foreach() is terminated.
+
+The queuebuf_foreach() callback function argument CANNOT be NULL.
+
+=====================================
+5.6 Stackbuf - Stack Buffer Container
+=====================================
+
+Functions
+
+stackbuf_new        - create a new stackbuf
+stackbuf_del        - delete a stackbuf
+stackbuf_erase      - erase the contents of a stackbuf
+stackbuf_size       - get the size of a stackbuf
+stackbuf_nin        - get the number of memory blocks (buffers) brought in
+stackbuf_nout       - get the number of memory blocks (buffers) brought out
+stackbuf_push       - push data onto a stackbuf
+stackbuf_pull       - pull data from a stackbuf
+stackbuf_pull_alloc - pull data into an allocated buffer from a stackbuf
+stackbuf_flush      - bring out an unfinished memory block (buffer)
+
+Prototypes (SCL_stackbuf.h)
+
+SCL_stackbuf_t stackbuf_new (SCL_getfn_t g, SCL_putfn_t p, size_t l);
+void stackbuf_del (SCL_stackbuf_t s);
+void stackbuf_erase (SCL_stackbuf_t s);
+size_t stackbuf_size (SCL_stackbuf_t s);
+size_t stackbuf_nin (SCL_stackbuf_t s);
+size_t stackbuf_nout (SCL_stackbuf_t s);
+int stackbuf_push (SCL_stackbuf_t s, const void* d, size_t l);
+int stackbuf_pull (SCL_stackbuf_t s, void* d, size_t l);
+int stackbuf_pull_alloc (SCL_stackbuf_t s, void** d, size_t l);
+int stackbuf_flush (SCL_stackbuf_t s);
+
+Include the file SCL_stackbuf.h for the SCL stackbuf prototypes.
+
+The stackbuf container implements a stack of bytes in a block of memory.  When
+data is pushed into a stackbuf that is full, a user-supplied callback function
+is invoked to take the full memory block.  When data is pulled from an empty
+stackbuf, a user-supplied callback functions is invoked to get a memory block.
+
+The user-supplied callback functions for getting and putting memory blocks
+should be declared like this:
+
+	void* getfn (size_t a_size) {
+		void* block;
+		/* Get a block from somewhere.  The block is of size a_size. */
+		return block;
+	}
+
+	int putfn (void* a_block, size_t a_size) {
+		/*
+		 * Store a block somewhere.  The block is pointed to by a_block
+		 * and is of size a_size.
+		 */
+		return 0;
+	}
+
+It would make sense for getfn and putfn to use an SCL list as a stack to manage
+the data buffer blocks.
+
+The stackbuf container is a sort of deque, wherein bytes go in and out of one
+end, and blocks of data bytes go in and out of the other end.
+
+The user-supplied callback functions for getting and putting memory blocks, and
+the size of memory blocks are the arguments to stackbuf_new, like this:
+
+	SCL_stackbuf_t stackbuf;
+
+	/*
+	 * Create a stackbuf that has room for 250 bytes; the block size
+	 * argument to the getfn and putfn will not be more than 250.
+	 */
+	stackbuf = stackbuf_new (getfn, putfn, 250);
+
+When deleting a stackbuf with stackbuf_del(), any existing data is given to the
+putfn with the size being the current amount of data.  For example (without
+much error processing):
+
+	SCL_stackbuf_t stackbuf;
+	const char* data = "The quick brown fox jumped over the lazy dog.";
+	int stat;
+
+	stackbuf = stackbuf_new (getfn, putfn, 250);
+	if (stackbuf == NULL) return -1;
+
+	/*
+	 * putfn is not used here because the data buffer didn't fill up.
+	 */
+	stat = stackbuf_push (stackbuf, data, strlen(data));
+	if (stat != SCL_OK) return -1;
+
+	stackbuf_del (stackbuf); /* This will result in putfn being invoked, */
+	                         /* because the buffer has data that would   */
+	                         /* be otherwise lost.  Of course, if        */
+	                         /* nothing is done with the data buffer,    */
+	                         /* then nobody goes to jail.                */
+
+stackbuf_erase() does not invoke the putfn.
+
+stackbuf_size() returns the amount of data (bytes) currently in the stackbuf
+data block.
+
+stackbuf_nin() returns the number of times the getfn has been invoked.
+stackbuf_nout() returns the number of times the putfn has been invoked.
+
+stackbuf_push() invokes putfn whenever the stackbuf data buffer fills.  This
+can be multiple times, like this (without descent error processing):
+
+	SCL_stackbuf_t stackbuf;
+	const char* data = "The quick brown fox jumped over the lazy dog.";
+	int stat;
+
+	stackbuf = stackbuf_new (getfn, putfn, 20);
+	if (stackbuf == NULL) return -1;
+
+	/*
+	 * putfn is invoked two times here because the data is more than twice
+	 * the size of the data buffer.
+	 */
+	stat = stackbuf_push (stackbuf, data, strlen(data));
+	if (stat != SCL_OK) return -1;
+
+stackbuf_pull() returns the number of bytes returned from the stackbuf; it
+invokes getfn whenever the stackbuf data buffer is empty, like this (with not
+much good error processing):
+
+	SCL_stackbuf_t stackbuf;
+	char data[20];
+	int size;
+
+	stackbuf = stackbuf_new (getfn, putfn, 20);
+	if (stackbuf == NULL) return -1;
+
+	/*
+	 * getfn is invoked here to get a data buffer of size 20 for the
+	 * stackbuf.
+	 */
+	size = stackbuf_pull (stackbuf, data, 10);
+	if (stat != 10) return -1;
+
+stackbuf_pull_alloc() does the same thing as stackbuf_pull() but it dynamically
+allocates a buffer for the returned data.  Remember to free this buffer with
+scl_free().  Another example:
+
+	SCL_stackbuf_t stackbuf;
+	char* data;
+	int size;
+
+	stackbuf = stackbuf_new (getfn, putfn, 20);
+	if (stackbuf == NULL) return -1;
+
+	size = stackbuf_pull_alloc (stackbuf, &data, 10); /* getfn invoked */
+	if (stat == 0) return -1;
+
+	scl_free (data);
+
+stackbuf_flush() simply invokes the putfn, if there is any data in the stackbuf.
+
+=============================
+5.7 Symbol - Symbol Container
+=============================
+
+Functions
+
+symbol_new           - dynamically allocate an empty symbol
+symbol_del           - free dynamically created symbol
+symbol_stat          - get a symbol's type
+symbol_int_set       - unconditionally set a symbol integer (long) value
+symbol_real_set      - unconditionally set a symbol real (double) value
+symbol_ptr_set       - unconditionally set a symbol pointer (void*) value
+symbol_int_get       - unconditionally get a symbol's integer (long) value
+symbol_real_get      - unconditionally get a symbol's real (double) value
+symbol_ptr_get       - unconditionally get a symbol's pointer (void*) value
+symbol_int_set_safe  - set a symbol integer (long) value, if that type
+symbol_real_set_safe - set a symbol real (double) value, if that type
+symbol_ptr_set_safe  - set a symbol pointer (void*) value, if that type
+symbol_int_get_safe  - get a symbol's integer (long) value, if that type
+symbol_real_get_safe - get a symbol's real (double) value, if that type
+symbol_ptr_get_safe  - get a symbol's pointer (void*) value, if that type
+
+Prototypes (SCL_symbol.h)
+
+SCL_symbol_t symbol_new (void);
+void symbol_del (SCL_symbol_t s);
+int symbol_stat (SCL_symbol_t s);
+void symbol_int_set (SCL_symbol_t s, long i);
+void symbol_real_set (SCL_symbol_t s, double i);
+void symbol_ptr_set (SCL_symbol_t s, void* i);
+long symbol_int_get (SCL_symbol_t s);
+double symbol_real_get (SCL_symbol_t s);
+void*symbol_ptr_get (SCL_symbol_t s);
+int symbol_int_set_safe (SCL_symbol_t s, long i);
+int symbol_real_set_safe (SCL_symbol_t s, double i);
+int symbol_ptr_set_safe (SCL_symbol_t s, void* i);
+int symbol_int_get_safe (SCL_symbol_t s, long* const i);
+int symbol_real_get_safe (SCL_symbol_t s, double* const i);
+int symbol_ptr_get_safe (SCL_symbol_t s, void** const i);
+
+Include the file SCL_symbol.h for the SCL symbol prototypes.
+
+The symbol container is used for storage and retrieval of various data types
+encapsulated within a uniform "symbol" wrapper.  In this way, one can have an
+array or list of symbols, each symbol being of some distinct type, typically
+integer, real, or string.
+
+Symbols are handy when implementing a text parser, like the front end of some
+sort of compiler.
+
+An SCL symbol is initially un-initialized, and then can be set to a particular
+type and appropriate value.  SCL defines symbolic names for symbol types:
+
+Binary Value  Symbolic Name       General Meaning
+------------  -------------       ---------------
+     0 ...... SCL_SYMBOL_NONE ... Un-initialized symbol.
+     1 ...... SCL_SYMBOL_INT .... Integer (long) symbol.
+     2 ...... SCL_SYMBOL_REAL ... Real (double) symbol.
+     3 ...... SCL_SYMBOL_PTR .... Pointer (void*) symbol.
+
+symbol_new() dynamically allocates a new symbol and initializes its type to
+SCL_SYMBOL_NONE.
+
+symbol_del() free a dynamically allocated symbol.
+
+symbol_stat() returns an integer value representing the type of the symbol; the
+return value is SCL_SYMBOL_NONE, SCL_SYMBOL_INT, SCL_SYMBOL_REAL, or
+SCL_SYMBOL_PTR.
+
+symbol_int_set()
+symbol_real_set()
+symbol_ptr_set()
+	These functions unconditionally set a symbol with a value and
+	correspondingly set the symbol's type to SCL_SYMBOL_INT,
+	SCL_SYMBOL_REAL, or SCL_SYMBOL_PTR.
+
+symbol_int_get()
+symbol_real_get()
+symbol_ptr_get()
+	These functions unconditionally get a symbol's value without checking
+	the symbol's type.
+
+symbol_int_set_safe()
+symbol_real_set_safe()
+symbol_ptr_set_safe()
+	These functions set a symbol's value if the symbol is of the
+	corresponding type; if not, SCL_NOSVC is returned.
+
+symbol_int_get_safe()
+symbol_real_get_safe()
+symbol_ptr_get_safe()
+	These functions get a symbol's value if the symbol is of the
+	corresponding type; if not, SCL_NOSVC is returned.
+
+=========================================
+5.8 Tree - Balanced Binary Tree Container
+=========================================
+
+Functions
+
+tree_new      - create a new tree
+tree_del      - delete a tree
+tree_erase    - erase the contents of a tree
+tree_count    - get the number of items in a tree
+tree_stat     - get insertion/deletion metrics: height, compares, rotates
+tree_insert   - insert an item into a tree
+tree_replace  - replace an existing item in a tree
+tree_access   - get an item in a tree
+tree_at       - return an iterator
+tree_data_set - replace an existing item in a tree from an iterator
+tree_data_get - get an item in a tree from an iterator
+tree_foreach  - traverse a tree
+
+Prototypes (SCL_tree.h)
+
+SCL_tree_t tree_new (void);
+void tree_del (SCL_tree_t t);
+void tree_erase (SCL_tree_t t, SCL_cbfn_t f, void* c);
+size_t tree_count (SCL_tree_t t);
+void tree_stat (SCL_tree_t t, size_t* h, size_t* c, size_t* r);
+int tree_insert (SCL_tree_t t, long k, const void* d);
+int tree_replace (SCL_tree_t t, long k, const void* d);
+void* tree_access (SCL_tree_t t, long k);
+SCL_iterator_t tree_at (SCL_tree_t t, long k);
+void tree_data_set (SCL_iterator_t i, const void* d);
+void* tree_data_get (SCL_iterator_t i);
+void tree_foreach (SCL_tree_t t, int o, SCL_cbfn_t f, void* c);
+
+Include the file SCL_tree.h for the SCL tree prototypes.
+
+The tree container is used for storage and retrieval of data values that are
+associated with keys, often called "key-value pairs".  A key is a long.  The
+data value part of a key-value pair is anything to which a void pointer can
+point.
+
+The tree container keeps the tree structure balanced with respect to the key of
+the key-value pair, and provides a fairly rapid insertion (theoretically order
+NlogN on average with evenly distributed keys).
+
+tree_foreach() is parameterized with a symbolic value that controls the
+traversal algorithm:
+
+Symbolic Name   Traversal Algorithm
+-------------   -------------------
+SCL_PREFIX .... Standard tree prefix traversal.
+SCL_INFIX ..... Standard tree infix traversal.
+SCL_POSTFIX ... Standard tree postfix traversal.
+
+The first argument to the callback function is set to NULL with tree_foreach(),
+and the callback function should be declared like this:
+
+        int cbfn (
+                 const char* unused,
+                 long        key,
+                 void*       data,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to tree_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the traversal
+being performed by tree_foreach() is terminated.
+
+The tree_foreach() callback function argument CANNOT be NULL.
+
+=====================================
+5.9 Vector - Vector (Array) Container
+=====================================
+
+Functions
+
+vector_new       - create a new vector
+vector_del       - delete a vector
+vector_erase     - erase the contents of a vector
+vector_size      - get the size of a vector
+vector_count     - get the number of items in a vector
+vector_push_back - insert an item into the back of a vector
+vector_replace   - replace an existing item in a vector
+vector_pop_back  - remove an item from the back of a vector
+vector_back      - get an item in the back of a vector
+vector_access    - get an item in a vector
+vector_at        - return an iterator
+vector_begin     - return the first iterator
+vector_end       - return the last iterator
+vector_next      - return the next iterator
+vector_prev      - return the previous iterator
+vector_data_set  - replace an existing item in a vector from an iterator
+vector_data_get  - get an item in a vector from an iterator
+vector_foreach   - iterate through an entire vector
+vector_reverse   - reserve a vector
+
+Prototypes (SCL_vector.h)
+
+SCL_vector_t vector_new (void);
+void vector_del (SCL_vector_t v);
+void vector_erase (SCL_vector_t v);
+size_t vector_size (SCL_vector_t v);
+size_t vector_count (SCL_vector_t v);
+int vector_push_back (SCL_vector_t v, const void* d);
+int vector_replace (SCL_vector_t v, size_t i, const void* d);
+void* vector_pop_back (SCL_vector_t v);
+void* vector_back (SCL_vector_t v);
+void* vector_access (SCL_vector_t v, size_t i);
+SCL_iterator_t vector_at (SCL_vector_t v, size_t i);
+SCL_iterator_t vector_begin (SCL_vector_t v);
+SCL_iterator_t vector_end (SCL_vector_t v);
+SCL_iterator_t vector_next (SCL_iterator_t i);
+SCL_iterator_t vector_prev (SCL_iterator_t i);
+void vector_data_set (SCL_iterator_t i, const void* d);
+void* vector_data_get (SCL_iterator_t i);
+void vector_foreach (SCL_vector_t v, SCL_cbfn_t f, void* c);
+void vector_reverse (SCL_vector_t v);
+
+Include the file SCL_vector.h for the SCL vector prototypes.
+
+The vector container is used for storage and retrieval of data values with
+rapid insertion and deletion at the ends (front and back), and rapid indexed
+access to any item.  The data value is anything to which a void pointer can
+point.
+
+A vector is an array.  A vector container uses a small amount of memory when
+created and grows as items are added.  When a vector becomes full it grows by
+twice its previous size.  This happens only during the vector_push_back()
+function, so sometimes that function takes a "long" time while the entire
+vector is rebuilt.
+
+Notice that vector_push_back() is the only method of adding new items to a
+vector.
+
+The vector_foreach() function iterates through each data value in a vector and
+invokes the user-supplied callback function for each data value.  The first
+argument to the callback function is set to NULL with vector_foreach(), and the
+callback function should be declared like this:
+
+        int cbfn (
+                 const char* unused,
+                 long        index,
+                 void*       data,
+                 void*       context
+                 );
+
+The context argument of the callback function is the same user-supplied value
+given to vector_foreach().
+
+If the callback function returns anything other than SCL_NOTFOUND the iteration
+being performed by vector_foreach() is terminated.
+
+The vector_foreach() callback function argument CANNOT be NULL.
+
+======================================
+APPENDIX A - GNU Free Document License
+======================================
+
+
+GNU Free Documentation License
+                  Version 1.2, November 2002
+
+
+ Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+
+0. PREAMBLE
+
+The purpose of this License is to make a manual, textbook, or other
+functional and useful document "free" in the sense of freedom: to
+assure everyone the effective freedom to copy and redistribute it,
+with or without modifying it, either commercially or noncommercially.
+Secondarily, this License preserves for the author and publisher a way
+to get credit for their work, while not being considered responsible
+for modifications made by others.
+
+This License is a kind of "copyleft", which means that derivative
+works of the document must themselves be free in the same sense.  It
+complements the GNU General Public License, which is a copyleft
+license designed for free software.
+
+We have designed this License in order to use it for manuals for free
+software, because free software needs free documentation: a free
+program should come with manuals providing the same freedoms that the
+software does.  But this License is not limited to software manuals;
+it can be used for any textual work, regardless of subject matter or
+whether it is published as a printed book.  We recommend this License
+principally for works whose purpose is instruction or reference.
+
+
+1. APPLICABILITY AND DEFINITIONS
+
+This License applies to any manual or other work, in any medium, that
+contains a notice placed by the copyright holder saying it can be
+distributed under the terms of this License.  Such a notice grants a
+world-wide, royalty-free license, unlimited in duration, to use that
+work under the conditions stated herein.  The "Document", below,
+refers to any such manual or work.  Any member of the public is a
+licensee, and is addressed as "you".  You accept the license if you
+copy, modify or distribute the work in a way requiring permission
+under copyright law.
+
+A "Modified Version" of the Document means any work containing the
+Document or a portion of it, either copied verbatim, or with
+modifications and/or translated into another language.
+
+A "Secondary Section" is a named appendix or a front-matter section of
+the Document that deals exclusively with the relationship of the
+publishers or authors of the Document to the Document's overall subject
+(or to related matters) and contains nothing that could fall directly
+within that overall subject.  (Thus, if the Document is in part a
+textbook of mathematics, a Secondary Section may not explain any
+mathematics.)  The relationship could be a matter of historical
+connection with the subject or with related matters, or of legal,
+commercial, philosophical, ethical or political position regarding
+them.
+
+The "Invariant Sections" are certain Secondary Sections whose titles
+are designated, as being those of Invariant Sections, in the notice
+that says that the Document is released under this License.  If a
+section does not fit the above definition of Secondary then it is not
+allowed to be designated as Invariant.  The Document may contain zero
+Invariant Sections.  If the Document does not identify any Invariant
+Sections then there are none.
+
+The "Cover Texts" are certain short passages of text that are listed,
+as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+the Document is released under this License.  A Front-Cover Text may
+be at most 5 words, and a Back-Cover Text may be at most 25 words.
+
+A "Transparent" copy of the Document means a machine-readable copy,
+represented in a format whose specification is available to the
+general public, that is suitable for revising the document
+straightforwardly with generic text editors or (for images composed of
+pixels) generic paint programs or (for drawings) some widely available
+drawing editor, and that is suitable for input to text formatters or
+for automatic translation to a variety of formats suitable for input
+to text formatters.  A copy made in an otherwise Transparent file
+format whose markup, or absence of markup, has been arranged to thwart
+or discourage subsequent modification by readers is not Transparent.
+An image format is not Transparent if used for any substantial amount
+of text.  A copy that is not "Transparent" is called "Opaque".
+
+Examples of suitable formats for Transparent copies include plain
+ASCII without markup, Texinfo input format, LaTeX input format, SGML
+or XML using a publicly available DTD, and standard-conforming simple
+HTML, PostScript or PDF designed for human modification.  Examples of
+transparent image formats include PNG, XCF and JPG.  Opaque formats
+include proprietary formats that can be read and edited only by
+proprietary word processors, SGML or XML for which the DTD and/or
+processing tools are not generally available, and the
+machine-generated HTML, PostScript or PDF produced by some word
+processors for output purposes only.
+
+The "Title Page" means, for a printed book, the title page itself,
+plus such following pages as are needed to hold, legibly, the material
+this License requires to appear in the title page.  For works in
+formats which do not have any title page as such, "Title Page" means
+the text near the most prominent appearance of the work's title,
+preceding the beginning of the body of the text.
+
+A section "Entitled XYZ" means a named subunit of the Document whose
+title either is precisely XYZ or contains XYZ in parentheses following
+text that translates XYZ in another language.  (Here XYZ stands for a
+specific section name mentioned below, such as "Acknowledgements",
+"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
+of such a section when you modify the Document means that it remains a
+section "Entitled XYZ" according to this definition.
+
+The Document may include Warranty Disclaimers next to the notice which
+states that this License applies to the Document.  These Warranty
+Disclaimers are considered to be included by reference in this
+License, but only as regards disclaiming warranties: any other
+implication that these Warranty Disclaimers may have is void and has
+no effect on the meaning of this License.
+
+
+2. VERBATIM COPYING
+
+You may copy and distribute the Document in any medium, either
+commercially or noncommercially, provided that this License, the
+copyright notices, and the license notice saying this License applies
+to the Document are reproduced in all copies, and that you add no other
+conditions whatsoever to those of this License.  You may not use
+technical measures to obstruct or control the reading or further
+copying of the copies you make or distribute.  However, you may accept
+compensation in exchange for copies.  If you distribute a large enough
+number of copies you must also follow the conditions in section 3.
+
+You may also lend copies, under the same conditions stated above, and
+you may publicly display copies.
+
+
+3. COPYING IN QUANTITY
+
+If you publish printed copies (or copies in media that commonly have
+printed covers) of the Document, numbering more than 100, and the
+Document's license notice requires Cover Texts, you must enclose the
+copies in covers that carry, clearly and legibly, all these Cover
+Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+the back cover.  Both covers must also clearly and legibly identify
+you as the publisher of these copies.  The front cover must present
+the full title with all words of the title equally prominent and
+visible.  You may add other material on the covers in addition.
+Copying with changes limited to the covers, as long as they preserve
+the title of the Document and satisfy these conditions, can be treated
+as verbatim copying in other respects.
+
+If the required texts for either cover are too voluminous to fit
+legibly, you should put the first ones listed (as many as fit
+reasonably) on the actual cover, and continue the rest onto adjacent
+pages.
+
+If you publish or distribute Opaque copies of the Document numbering
+more than 100, you must either include a machine-readable Transparent
+copy along with each Opaque copy, or state in or with each Opaque copy
+a computer-network location from which the general network-using
+public has access to download using public-standard network protocols
+a complete Transparent copy of the Document, free of added material.
+If you use the latter option, you must take reasonably prudent steps,
+when you begin distribution of Opaque copies in quantity, to ensure
+that this Transparent copy will remain thus accessible at the stated
+location until at least one year after the last time you distribute an
+Opaque copy (directly or through your agents or retailers) of that
+edition to the public.
+
+It is requested, but not required, that you contact the authors of the
+Document well before redistributing any large number of copies, to give
+them a chance to provide you with an updated version of the Document.
+
+
+4. MODIFICATIONS
+
+You may copy and distribute a Modified Version of the Document under
+the conditions of sections 2 and 3 above, provided that you release
+the Modified Version under precisely this License, with the Modified
+Version filling the role of the Document, thus licensing distribution
+and modification of the Modified Version to whoever possesses a copy
+of it.  In addition, you must do these things in the Modified Version:
+
+A. Use in the Title Page (and on the covers, if any) a title distinct
+   from that of the Document, and from those of previous versions
+   (which should, if there were any, be listed in the History section
+   of the Document).  You may use the same title as a previous version
+   if the original publisher of that version gives permission.
+B. List on the Title Page, as authors, one or more persons or entities
+   responsible for authorship of the modifications in the Modified
+   Version, together with at least five of the principal authors of the
+   Document (all of its principal authors, if it has fewer than five),
+   unless they release you from this requirement.
+C. State on the Title page the name of the publisher of the
+   Modified Version, as the publisher.
+D. Preserve all the copyright notices of the Document.
+E. Add an appropriate copyright notice for your modifications
+   adjacent to the other copyright notices.
+F. Include, immediately after the copyright notices, a license notice
+   giving the public permission to use the Modified Version under the
+   terms of this License, in the form shown in the Addendum below.
+G. Preserve in that license notice the full lists of Invariant Sections
+   and required Cover Texts given in the Document's license notice.
+H. Include an unaltered copy of this License.
+I. Preserve the section Entitled "History", Preserve its Title, and add
+   to it an item stating at least the title, year, new authors, and
+   publisher of the Modified Version as given on the Title Page.  If
+   there is no section Entitled "History" in the Document, create one
+   stating the title, year, authors, and publisher of the Document as
+   given on its Title Page, then add an item describing the Modified
+   Version as stated in the previous sentence.
+J. Preserve the network location, if any, given in the Document for
+   public access to a Transparent copy of the Document, and likewise
+   the network locations given in the Document for previous versions
+   it was based on.  These may be placed in the "History" section.
+   You may omit a network location for a work that was published at
+   least four years before the Document itself, or if the original
+   publisher of the version it refers to gives permission.
+K. For any section Entitled "Acknowledgements" or "Dedications",
+   Preserve the Title of the section, and preserve in the section all
+   the substance and tone of each of the contributor acknowledgements
+   and/or dedications given therein.
+L. Preserve all the Invariant Sections of the Document,
+   unaltered in their text and in their titles.  Section numbers
+   or the equivalent are not considered part of the section titles.
+M. Delete any section Entitled "Endorsements".  Such a section
+   may not be included in the Modified Version.
+N. Do not retitle any existing section to be Entitled "Endorsements"
+   or to conflict in title with any Invariant Section.
+O. Preserve any Warranty Disclaimers.
+
+If the Modified Version includes new front-matter sections or
+appendices that qualify as Secondary Sections and contain no material
+copied from the Document, you may at your option designate some or all
+of these sections as invariant.  To do this, add their titles to the
+list of Invariant Sections in the Modified Version's license notice.
+These titles must be distinct from any other section titles.
+
+You may add a section Entitled "Endorsements", provided it contains
+nothing but endorsements of your Modified Version by various
+parties--for example, statements of peer review or that the text has
+been approved by an organization as the authoritative definition of a
+standard.
+
+You may add a passage of up to five words as a Front-Cover Text, and a
+passage of up to 25 words as a Back-Cover Text, to the end of the list
+of Cover Texts in the Modified Version.  Only one passage of
+Front-Cover Text and one of Back-Cover Text may be added by (or
+through arrangements made by) any one entity.  If the Document already
+includes a cover text for the same cover, previously added by you or
+by arrangement made by the same entity you are acting on behalf of,
+you may not add another; but you may replace the old one, on explicit
+permission from the previous publisher that added the old one.
+
+The author(s) and publisher(s) of the Document do not by this License
+give permission to use their names for publicity for or to assert or
+imply endorsement of any Modified Version.
+
+
+5. COMBINING DOCUMENTS
+
+You may combine the Document with other documents released under this
+License, under the terms defined in section 4 above for modified
+versions, provided that you include in the combination all of the
+Invariant Sections of all of the original documents, unmodified, and
+list them all as Invariant Sections of your combined work in its
+license notice, and that you preserve all their Warranty Disclaimers.
+
+The combined work need only contain one copy of this License, and
+multiple identical Invariant Sections may be replaced with a single
+copy.  If there are multiple Invariant Sections with the same name but
+different contents, make the title of each such section unique by
+adding at the end of it, in parentheses, the name of the original
+author or publisher of that section if known, or else a unique number.
+Make the same adjustment to the section titles in the list of
+Invariant Sections in the license notice of the combined work.
+
+In the combination, you must combine any sections Entitled "History"
+in the various original documents, forming one section Entitled
+"History"; likewise combine any sections Entitled "Acknowledgements",
+and any sections Entitled "Dedications".  You must delete all sections
+Entitled "Endorsements".
+
+
+6. COLLECTIONS OF DOCUMENTS
+
+You may make a collection consisting of the Document and other documents
+released under this License, and replace the individual copies of this
+License in the various documents with a single copy that is included in
+the collection, provided that you follow the rules of this License for
+verbatim copying of each of the documents in all other respects.
+
+You may extract a single document from such a collection, and distribute
+it individually under this License, provided you insert a copy of this
+License into the extracted document, and follow this License in all
+other respects regarding verbatim copying of that document.
+
+
+7. AGGREGATION WITH INDEPENDENT WORKS
+
+A compilation of the Document or its derivatives with other separate
+and independent documents or works, in or on a volume of a storage or
+distribution medium, is called an "aggregate" if the copyright
+resulting from the compilation is not used to limit the legal rights
+of the compilation's users beyond what the individual works permit.
+When the Document is included in an aggregate, this License does not
+apply to the other works in the aggregate which are not themselves
+derivative works of the Document.
+
+If the Cover Text requirement of section 3 is applicable to these
+copies of the Document, then if the Document is less than one half of
+the entire aggregate, the Document's Cover Texts may be placed on
+covers that bracket the Document within the aggregate, or the
+electronic equivalent of covers if the Document is in electronic form.
+Otherwise they must appear on printed covers that bracket the whole
+aggregate.
+
+
+8. TRANSLATION
+
+Translation is considered a kind of modification, so you may
+distribute translations of the Document under the terms of section 4.
+Replacing Invariant Sections with translations requires special
+permission from their copyright holders, but you may include
+translations of some or all Invariant Sections in addition to the
+original versions of these Invariant Sections.  You may include a
+translation of this License, and all the license notices in the
+Document, and any Warranty Disclaimers, provided that you also include
+the original English version of this License and the original versions
+of those notices and disclaimers.  In case of a disagreement between
+the translation and the original version of this License or a notice
+or disclaimer, the original version will prevail.
+
+If a section in the Document is Entitled "Acknowledgements",
+"Dedications", or "History", the requirement (section 4) to Preserve
+its Title (section 1) will typically require changing the actual
+title.
+
+
+9. TERMINATION
+
+You may not copy, modify, sublicense, or distribute the Document except
+as expressly provided for under this License.  Any other attempt to
+copy, modify, sublicense or distribute the Document is void, and will
+automatically terminate your rights under this License.  However,
+parties who have received copies, or rights, from you under this
+License will not have their licenses terminated so long as such
+parties remain in full compliance.
+
+
+10. FUTURE REVISIONS OF THIS LICENSE
+
+The Free Software Foundation may publish new, revised versions
+of the GNU Free Documentation License from time to time.  Such new
+versions will be similar in spirit to the present version, but may
+differ in detail to address new problems or concerns.  See
+http://www.gnu.org/copyleft/.
+
+Each version of the License is given a distinguishing version number.
+If the Document specifies that a particular numbered version of this
+License "or any later version" applies to it, you have the option of
+following the terms and conditions either of that specified version or
+of any later version that has been published (not as a draft) by the
+Free Software Foundation.  If the Document does not specify a version
+number of this License, you may choose any version ever published (not
+as a draft) by the Free Software Foundation.
+
+
+ADDENDUM: How to use this License for your documents
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and
+license notices just after the title page:
+
+    Copyright (c)  YEAR  YOUR NAME.
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.
+    A copy of the license is included in the section entitled "GNU
+    Free Documentation License".
+
+If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
+replace the "with...Texts." line with this:
+
+    with the Invariant Sections being LIST THEIR TITLES, with the
+    Front-Cover Texts being LIST, and with the Back-Cover Texts being
+LIST.
+
+If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License,
+to permit their use in free software.
+
+[eof]

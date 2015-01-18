@@ -1,0 +1,27 @@
+SCL - Small Container Library
+
+Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org> Peoria, AZ USA
+
+
+I have taken some code, without explicit permission, for use in SCL.  The
+following people have not actively contributed to SCL; they are not known
+by me to indorse SCL; they probably do not know that SCL exists.
+
+Copyright (C) 1997-2004 Sam Lantinga
+     I took some compiler keyword setup from SDL version 1.2.7 (begin_code.h).
+
+Copyright (C) 1973 Donald E.Knuth
+     The balanced binary tree insertion algorithm is directly taken from
+     "Sorting and Searching," The Art of Computer Programming, vol. 3 (Reading
+     Mass.: Addison-Wesley 1973).
+
+
+The following people have actively contributed to SCL.
+
+Copyright (C) <year> <name> ....................................... <capability>
+
+
+The following people have reported bugs and given fixes.
+
+2010-03-31 oyama.yoshihiro@alfredcore.com ...... x86_64 build, vector_back() fix
+2010-04-12 chenzunfeng@qq.com .................. hash rebuild() fix

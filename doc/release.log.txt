@@ -1,0 +1,14 @@
+SCL Release Log
+SCL Version	Date		SLOCS	Size Change	Description
+-----------	----------	-----	-----------	-----------
+0.1.0		2004-11-29	2538	N/A		Learn, debug the sf.net release file process.
+0.1.1		2004-12-02	2540	0.08%		Fixed some build problems.  Started some documentation.
+0.5.0		2004-12-16	2551	0.43%		Fixed some bugs.  Windows build works.  Test suite started.
+1.0.0		2005-07-10	2550	-0.04%		Finished a cheap test suite.  Have a .doc of the cheap User's Guide.
+1.0.1		2006-04-25	2550	0.00%		Updated the MS Visual C 6 project "Debug" and "Release".
+1.0.2		2006-06-09	2562	0.47%		Miscellaneous format finessing of source code and Makefile.
+1.0.3		2010-03-31	2566	0.16%		vector_back() bug fix and 64-bit system support.
+1.1.0		2010-04-04	2680	4.25% [1]	Added callback context pointer to the API.
+1.1.1		2010-04-13	2680	0.00%		Fixed bug in hash rebuild().
+
+[1] - Change in SLOC counter; probably only 16 SLOC increase.

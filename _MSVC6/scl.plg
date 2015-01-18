@@ -1,0 +1,67 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: SCL - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP22.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /I "..\\" /I "..\_MSVC6" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SCL_EXPORTS" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\djerome\projects\libscl\src\config.c"
+"C:\djerome\projects\libscl\src\hash.c"
+"C:\djerome\projects\libscl\src\list.c"
+"C:\djerome\projects\libscl\src\map.c"
+"C:\djerome\projects\libscl\src\queuebuf.c"
+"C:\djerome\projects\libscl\src\stackbuf.c"
+"C:\djerome\projects\libscl\src\symbol.c"
+"C:\djerome\projects\libscl\src\tree.c"
+"C:\djerome\projects\libscl\src\vector.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP22.tmp" 
+Creating temporary file "C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP23.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /I "..\\" /I "..\_MSVC6" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SCL_EXPORTS" /Fp"Release/SCL.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\djerome\projects\libscl\_MSVC6\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP23.tmp" 
+Creating temporary file "C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP24.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/SCL.pdb" /machine:I386 /out:"Release/SCL.dll" /implib:"Release/SCL.lib" 
+.\Release\config.obj
+.\Release\hash.obj
+.\Release\list.obj
+.\Release\map.obj
+.\Release\queuebuf.obj
+.\Release\stackbuf.obj
+.\Release\StdAfx.obj
+.\Release\symbol.obj
+.\Release\tree.obj
+.\Release\vector.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\drjerome\LOCALS~1\Temp\RSP24.tmp"
+<h3>Output Window</h3>
+Compiling...
+StdAfx.cpp
+Compiling...
+config.c
+hash.c
+list.c
+map.c
+queuebuf.c
+stackbuf.c
+symbol.c
+tree.c
+vector.c
+Generating Code...
+Linking...
+   Creating library Release/SCL.lib and object Release/SCL.exp
+
+
+
+<h3>Results</h3>
+SCL.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

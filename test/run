@@ -1,0 +1,4 @@
+#!/bin/sh
+CWD=`pwd`
+SRCDIR=`expr ${CWD} : "\(.*\)/t"`/src
+LD_LIBRARY_PATH=${SRCDIR} ./$1
