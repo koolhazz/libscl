@@ -4,7 +4,7 @@ for SCL version 1.1.X
 This file is part of the SCL software.
 The license that this software falls under is as follows:
 
-Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+Copyright (C) 2004-2015 Douglas Jerome <douglas@ttylinux.org>
 
 Permission is granted to copy, distribute and/or modify this document under the
 terms of the GNU Free Documentation License, Version 1.2 or any later version
@@ -14,14 +14,14 @@ in the section entitled "GNU Free Documentation License".
 
 FILE NAME
 
-	$RCSfile: users.guide.txt,v $
-	$Revision: 1.15 $
-	$Date: 2010/04/14 03:43:36 $
+	File Name: users.guide.txt
+	Revision:  1.16
+	Date:      2015-01-18
 
 PROGRAM INFORMATION
 
 	Developed by:	SCL project
-	Developer:	Douglas Jerome, drj, <douglas@backstep.org>
+	Developer:	Douglas Jerome, drj, <douglas@ttylinux.org>
 
 FILE DESCRIPTION
 
@@ -30,6 +30,7 @@ FILE DESCRIPTION
 
 CHANGE LOG
 
+	18jan15	drj	Miscellaneous updates for re-hosting project in github.
 	13apr10	drj	Fixed a typographical error in the vector description.
 	04apr10	drj	Added callback context pointer to API, now SCL 1.1.X.
 	30jul05	drj	Obsessive-compulsive format changes.
@@ -58,7 +59,7 @@ CHANGE LOG
 
 
 Document Release Date
-April 13, 2010
+January 18, 2015
 
 
 
@@ -113,30 +114,34 @@ Section                                                                     Page
 1.1 Overview
 ============
 
-SCL is a library of C functions implementing several general purpose containers
-(abstract data types) that provide hash tables, linked list, queue, stack,
-symbol, balanced binary tree, and indexed array (vector).  Multiple independent
-instances of the same container (abstract type) can be used, each with its own
-arbitrary contents.
+libscl is a library of C functions implementing several general purpose
+containers (abstract data types) that provide hash tables, linked list, queue,
+stack, symbol, balanced binary tree, and indexed array (vector).  Multiple
+independent instances of the same container (abstract type) can be used, each
+with its own arbitrary contents.
 
-SCL tries to work with you and does not redefine the world with things like
-SCLint, SCLlong, etc.  SCL functions use arguments that are standard types,
-such as long, int, size_t.
+The SCL library tries to work with you and does NOT redefine the world with
+things like SCLint, SCLlong, etc.  The libscl functions use arguments that are
+standard types, such as long, int, size_t.
 
-SCL is distributed as source code under the GNU Library Public License and is
-freely available at:
+libscl is distributed as source code under the GNU Library Public License and
+is freely available at:
 
-	http://www.sourceforge.net/projects/libscl/
+	http://ttylinux.net/extras.html
 
-The SCL source code is distributed in several formats; zip and tar compressed
-with gzip and bzip2 should be available.
+The SCL library source code is distributed in several formats; zip and tar
+compressed with gzip and bzip2 should be available.
 
-These are the systems on which I know SCL builds:
+libscl is distributed in source code and should build on your Linux or Windows
+computer.  libscl is developed and maintained on a typical Linux host; it has
+no special dependencies so it should build without any issues.
 
-	o x86_64 Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9
-	o i386 Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
-	o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1
-	o Windows 2000, MS Visual C/C++ 6
+These are the systems on which I knew the original SCL library built:
+
+   o x86_64 Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9
+   o i386 Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
+   o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1
+   o Windows 2000, MS Visual C/C++ 6
 
 ===========
 1.2 License
@@ -144,7 +149,7 @@ These are the systems on which I know SCL builds:
 
 SCL - Small Container Library
 
-Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+Copyright (C) 2004-2015 Douglas Jerome <douglas@ttylinux.org>
 
 SCL is free software; you can redistribute it and/or modify it under the terms
 of the GNU Lesser General Public License as published by the Free Software
@@ -162,7 +167,7 @@ Temple Place, Suite 330, Boston, MA  02111-1307  USA
 I ask that something like the following message be included in all derived
 works:
 
-	Portions developed by: Douglas Jerome <douglas@backstep.org>
+	Portions developed by: Douglas Jerome <douglas@ttylinux.org>
 
 THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.  THERE
 ARE NO REPRESENTATIONS ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.
@@ -351,13 +356,13 @@ Container   Type   Capability                               Header File
 ---------   ----   ----------                               -----------
 config ..... n ... SCL configuration functions ............ SCL_config.h
 hash ....... c ... collision table, ASCII-Z key ........... SCL_hash.h
-list ....... c ... doubly-linked list, size_t indexible ... SCL_list.h
+list ....... c ... doubly-linked list, size_t indexable ... SCL_list.h
 map ........ c ... collision table, long-size key ......... SCL_map.h
 queuebuf ... s ... bytes queue, single queue block ........ SCL_queuebuf.h
 stackbuf ... s ... bytes stack, external block storage .... SCL_stackbuf.h
 symbol ..... s ... data type abstraction .................. SCL_symbol.h
 tree ....... c ... linked balanced tree, long-size key .... SCL_tree.h
-vector ..... c ... indexed array, size_t indexible ........ SCL_vector.h
+vector ..... c ... indexed array, size_t indexable ........ SCL_vector.h
 
 Type   Legend
 ----   ------
@@ -584,8 +589,8 @@ used, the user-supplied hash function should be declared like this:
 Some hash functions are called Message Digest functions; they take ASCII-Z
 "messages" and create a "digest".
 
-SCL hash tables have a size that is a number of indexible locations; each
-indexible location can hold a list of distinct key-value pairs.  The index for
+SCL hash tables have a size that is a number of indexable locations; each
+indexable location can hold a list of distinct key-value pairs.  The index for
 a key-value pair is generated by "hashing" the key.  The size of a hash table
 is gotten by hash_size(), and the number of items (key-value pairs) is gotten
 by hash_count().

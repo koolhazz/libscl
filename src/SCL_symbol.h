@@ -2,7 +2,7 @@
  * This file is part of the SCL software.
  * The license which this software falls under is as follows:
  *
- * Copyright (C) 2004-2206 Douglas Jerome <douglas@backstep.org>
+ * Copyright (C) 2004-2206 Douglas Jerome <douglas@ttylinux.org>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,14 +24,14 @@
 
 FILE NAME
 
-	$RCSfile: SCL_symbol.h,v $
-	$Revision: 1.3 $
-	$Date: 2006/06/07 06:21:25 $
+	Name:     SCL_symbol.h
+	Revision: 1.3
+	Date:     2006-06-07
 
 PROGRAM INFORMATION
 
 	Developed by:	SCL project
-	Developer:	Douglas Jerome, drj, <douglas@backstep.org>
+	Developer:	Douglas Jerome, drj, <douglas@ttylinux.org>
 
 FILE DESCRIPTION
 

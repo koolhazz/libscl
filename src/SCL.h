@@ -2,7 +2,7 @@
  * This file is part of the SCL software.
  * The license which this software falls under is as follows:
  *
- * Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+ * Copyright (C) 2004-2015 Douglas Jerome <douglas@ttylinux.org>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,14 +24,14 @@
 
 FILE NAME
 
-	$RCSfile: SCL.h,v $
-	$Revision: 1.13 $
-	$Date: 2010/04/05 02:28:33 $
+	Name:     SCL.h
+	Revision: 1.13
+	Date:     2015-01-18
 
 PROGRAM INFORMATION
 
 	Developed by:	SCL project
-	Developer:	Douglas Jerome, drj, <douglas@backstep.org>
+	Developer:	Douglas Jerome, drj, <douglas@ttylinux.org>
 
 FILE DESCRIPTION
 
@@ -42,6 +42,8 @@ FILE DESCRIPTION
 	to directly include this file.
 
 CHANGE LOG
+
+	18jan15	drj	Removed the buggy compile-time check for NULL's value.
 
 	04apr10	drj	Added context pointer to SCL_cbfn_t.
 
@@ -175,12 +177,6 @@ extern	"C"	{
 #      define	NULL	(0)
 #   endif
 #endif
-
-/*
- * This is a compile-time check for NULL being equal to 0.  If NULL is non-zero
- * then this next line should create a compile error.
- */
-typedef int SCL_CHECK_NULL[1-(((long long)NULL)*2)];
 
 
 /* ************************************************************************* */

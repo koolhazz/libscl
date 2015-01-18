@@ -2,7 +2,7 @@
  * This file is part of the SCL software.
  * The license which this software falls under is as follows:
  *
- * Copyright (C) 2004-2010 Douglas Jerome <douglas@backstep.org>
+ * Copyright (C) 2004-2015 Douglas Jerome <douglas@ttylinux.org>
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,14 +24,14 @@
 
 FILE NAME
 
-	$RCSfile: queuebuf.c,v $
-	$Revision: 1.5 $
-	$Date: 2010/04/14 03:07:44 $
+	Name:     queuebuf.c
+	Revision: 1.5
+	Date:     2010-04-14
 
 PROGRAM INFORMATION
 
 	Developed by:	SCL project
-	Developer:	Douglas Jerome, drj, <douglas@backstep.org>
+	Developer:	Douglas Jerome, drj, <douglas@ttylinux.org>
 
 FILE DESCRIPTION
 

@@ -2,7 +2,7 @@
                                       SCL
                             Small Container Library
 
-http://www.sourceforge.net/projects/libscl/
+http://ttylinux.net/extras.html
 
 
 ============
@@ -18,20 +18,27 @@ This library provides hash tables, list, queue, stack, symbol, balanced binary
 tree, and a vector as abstract data types.  Multiple independent instances of
 the same abstract type can be used, each with its own arbitrary contents.
 
-SCL does not redefine the world with SCL_int, SCL_long, etc.  The SCL functions
-use arguments that are standard: long, int, size_t, etc.
+The SCL library does NOT redefine the world with SCL_int, SCL_long, etc.  The
+libscl functions use standard arguments types, such as long, int, size_t.
+
+For official releases of libscl, see the ttylinux extras web page:
+http://ttylinux.org/extras.html
 
 
 =======
 Systems
 =======
 
-These are the systems on which I know SCL builds:
+libscl is distributed in source code and should build on your Linux or Windows
+computer.  libscl is developed and maintained on a typical Linux host; it has
+no special dependencies so it should build without any issues.
 
-     o Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4, i386
-     o Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9, x86_64
+These are the systems on which I knew the original SCL library built:
+
+     o x86_64 Linux 2.6.X, GCC 4.3.2, GNU Make 3.81, GNU C Lib 2.9
+     o i386 Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
      o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1
-     o Win98 WinNT Win2K WinXP, MS Visual C/C++ 6
+     o Windows 2000, MS Visual C/C++ 6
 
 
 =========
@@ -131,5 +138,5 @@ Linux:  Backtraces can help me fix bugs that make applications crash.  If you
 
 
 -- 
-Douglas Jerome <djerome@users.sourceforge.net> 
+Douglas Jerome <douglas@ttylinux.org> 
 

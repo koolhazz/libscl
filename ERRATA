@@ -1,5 +1,5 @@
 ----------------
-SCL-1.0.3 ERRATA
+SCL-1.1.2 ERRATA
 ----------------
 
 
@@ -14,12 +14,59 @@ Bugs & Limitations
 To Do
 ================================================================================
 
-1.	Get somebody to develop an autoconf/automake build process.
+1.	Get somebody to develop an auto-tools build process.
 
 
 ================================================================================
 Change Log
 ================================================================================
+
+##### Changes in SCL version 1.1.2 (18jan15):
+
+New and Changed Functionality:
+- Removed the buggy compile-time check for NULL's value (SCL.h).
+- Added V=1 command line option (Makefile).
+- Changed INSTALL_INCLUDE and INSTALL_SHARE directories (Makefile).
+- Added $(CROSS_COMPILE) for cross-building support (Makefile).
+- Removed the RCS usage (Makefile).
+- Added the 'help' make target (Makefile).
+- Removed the 'source' and 'objects' help targets (Makefile).
+- Added the 'help' make target, removed the 'source' and 'objects' help targets.
+- Changed the handling of optimization and debug flags (Makefile).
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Moved source into github and updated some documentation.
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 1.1.1 (13apr10):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- Fixed hash table rebuild() function (hash.c).
+
+Things otherwise different:
+- None.
+
+-------------------------------------------------------------------------------
+
+##### Changes in SCL version 1.1.0 (04apr10):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- API Change: added user-supplied context pointer to the callback functions.
+
+-------------------------------------------------------------------------------
 
 ##### Changes in SCL version 1.0.3 (31mar10):
 
@@ -63,7 +110,7 @@ Bugs Fixed:
 
 Things otherwise different:
 - Added _POSIX_C_SOURCE for <unistd.h> in SCL.h.
-- Revised Makefile for self-consistancy, and changed some comment format.
+- Revised Makefile for self-consistency, and changed some comment format.
 - Changed the MS Visual C 6.0 to make a Release build.
 - Updated the User's Guide.
 
@@ -79,7 +126,7 @@ Bugs Fixed:
 
 Things otherwise different:
 - Revised version data in Makefile and _MSVC6/win32_config.h for version 1.0.0.
-- Added ".depend" file usae in Makefile for better file dependency with make.
+- Added ".depend" file usage in Makefile for better file dependency with make.
 - Mindless rename of inclusion-control macros (SCL*.h).
 - Updated the user's guide, 06jul05, for SCL version 1.0.x.
 - Changed tree_update() to tree_replace() (SCL_tree.h, tree.c).

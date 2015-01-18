@@ -10,5 +10,6 @@ SCL Version	Date		SLOCS	Size Change	Description
 1.0.3		2010-03-31	2566	0.16%		vector_back() bug fix and 64-bit system support.
 1.1.0		2010-04-04	2680	4.25% [1]	Added callback context pointer to the API.
 1.1.1		2010-04-13	2680	0.00%		Fixed bug in hash rebuild().
+1.1.2		2015-01-18	2679	-0.04%		Removed the buggy compile-time check for NULL's value.
 
 [1] - Change in SLOC counter; probably only 16 SLOC increase.
