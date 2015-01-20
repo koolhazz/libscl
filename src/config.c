@@ -200,11 +200,11 @@ const char* (scl_conf_credits) (void)
    return LIBSCL_COPYRIGHT;
    }
 
-const char* (scl_conf_version) (void)     { return LIBSCL_REVISION;    }
-const char* (scl_conf_date) (void)        { return LIBSCL_TIMESTAMP;   }
-const char* (scl_conf_cflags) (void)      { return CLIENT_CFLAGS;   }
-const char* (scl_conf_shared_libs) (void) { return CLIENT_SHARLIBS; }
-const char* (scl_conf_static_libs) (void) { return CLIENT_STATLIBS; }
+const char* (scl_conf_version) (void)     { return LIBSCL_REVISION;  }
+const char* (scl_conf_date) (void)        { return LIBSCL_TIMESTAMP; }
+const char* (scl_conf_cflags) (void)      { return CLIENT_CFLAGS;    }
+const char* (scl_conf_shared_libs) (void) { return CLIENT_SHARLIBS;  }
+const char* (scl_conf_static_libs) (void) { return CLIENT_STATLIBS;  }
 
 const char* (scl_statstr) (int a_stat)
    {
